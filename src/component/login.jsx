@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Mail, Lock, Eye, EyeClosed } from 'lucide-react'
  import { useForm } from 'react-hook-form'
 import Service from '../Appwrite/Config'
-import authService from '../../../tshirt/src/Appwrite/Authentication'
+import authService from '../Appwrite/appwriteAuth'
 import { useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom'
 import { login } from '../Redux Slices/authSlice'
