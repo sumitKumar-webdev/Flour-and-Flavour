@@ -28,12 +28,15 @@ export const Login = (props) => {
         if (response) {
          const userInfo = await authService.getCurrentUser()
         }
-        setLoading(false)
         if (userInfo) {
-         dispatch(login(userInfo))
+          dispatch(login(userInfo))
+          navigate('/');
         }
+        
       } catch (error) {
         setError(error.message)
+      } finally {
+        setLoading(false)
       }
 
     }
