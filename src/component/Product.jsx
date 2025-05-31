@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addToCart, setCheckoutProducts } from '../Redux Slices/cartSlice'
 import { Loader } from './Loader'
 import './styleSheet/Product.css'
+import CustomAlert from './CustomAlert'
 
 export const Product = ({discount = 9}) => {
     const [product, setProduct] = useState([])
     const [selectdSize, setSelectdSize] = useState()
     const [loading, setLoading] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { productId } = useParams()
@@ -58,8 +60,7 @@ export const Product = ({discount = 9}) => {
     }
     const handleBuyNow = () => {
         if(!user){
-            alert('Login To Buy Now')
-            navigate('/login')
+            setShowAlert(true)
             return 
         }
         dispatch(setCheckoutProducts({
@@ -86,6 +87,12 @@ export const Product = ({discount = 9}) => {
             </div> : (
                 <div>
                 <div className="flex flex-col lg:flex-row gap-10 bg-white p-6 rounded-xl shadow-md">
+                    {/* alert Message */}
+                   {showAlert &&
+                          <CustomAlert 
+                          message={'Login To Buy Now'} 
+                          onEnter={()=>{setShowAlert(false); navigate('/login')}}
+                          onclose={()=>setShowAlert(false)}/>}
                 
                 <div className="flex-1  ">
                     <img

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setCheckoutProducts } from "../Redux Slices/cartSlice";
 import './styleSheet/CustomCake.css'
+import CustomAlert from "./CustomAlert";
 
 const CustomCake = () => {
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ const CustomCake = () => {
   const [frostingOptions , setFrostingOptions] = useState()
   const [sizeOptions , setSizeOptions] = useState()
   const [error, setError] = useState()
+  const [showAlert, setShowAlert] = useState(false)
 
   const errorFocus = useRef();
   const status = useSelector((state)=>state.auth.status)
@@ -118,8 +120,7 @@ const CustomCake = () => {
     setError("");
 
     if (!status) {
-      alert('Login To Buy Customized Cakes')
-      navigate('/login')
+     setShowAlert(true)
     }else{
       dispatch(setCheckoutProducts({
         cartProducts : [
@@ -144,6 +145,11 @@ const CustomCake = () => {
 
   return (
     !loading ? ( <div className="p-6 max-w-lg mx-auto items-center">
+       {showAlert &&
+       <CustomAlert 
+       message={'Login To Buy Customized Cakes'} 
+       onEnter={()=>{setShowAlert(false); navigate('/login')}}
+       onclose={()=>setShowAlert(false)}/>}
       <div className="headings">
       <h2 className="text-4xl text-center font-bold mb-4">Custom Cake</h2>
       <p className="mb-6 text-gray-600">

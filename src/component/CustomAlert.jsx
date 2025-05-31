@@ -2,11 +2,11 @@ import { User2Icon } from 'lucide-react'
 import React, { useEffect } from 'react'
 
 export default function CustomAlert({message, onEnter, onclose}) {
-  useEffect(()=> {
-  const timer =  setTimeout(()=>{onEnter?.()}, 5000)
+  // useEffect(()=> {
+  // const timer =  setTimeout(()=>{onEnter?.()}, 5000)
 
-  return () => clearTimeout(timer)
-  }, [onEnter])
+  // return () => clearTimeout(timer)
+  // }, [onEnter])
 
   return (
     <div onClick={onclose} className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">

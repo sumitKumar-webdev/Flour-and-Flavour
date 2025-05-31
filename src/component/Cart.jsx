@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { incQty, decQty, syncCartToDb,removeFromCart, deleteFromDb, setCheckoutProducts, clearCartDb, emptyCart } from '../Redux Slices/cartSlice';
 import Service from '../Appwrite/Config';
 import { useNavigate } from 'react-router-dom';
+import CustomAlert from './CustomAlert';
 
  const Cart= () => {
     const dispatch = useDispatch()
@@ -20,6 +21,7 @@ const userId = userData?.$id
 const [product, setProduct ] = useState({});
 const [showInput, setShowInput] = useState({})
 const [loading, setLoading] = useState(false)
+const [showAlert, setShowAlert] = useState(false)
 const [cakeMessage, setCakeMessage ] = useState({})
 
 //fetching products
@@ -63,8 +65,7 @@ useEffect(()=>{
 
 const handlePlaceOrder = () =>{
   if (!userId) {
-    alert('login to place order');
-    navigate('/login');
+       setShowAlert(true)
     return
   }
 dispatch(setCheckoutProducts({cartProducts, cakeMessage})),
@@ -76,6 +77,13 @@ navigate('/payment'),
 
   return (
     <div className="bg-rose-50 min-h-screen py-8 px-4">
+      {/* Alert */}
+      {showAlert &&
+       <CustomAlert 
+       message={'Login to Place Order'} 
+       onEnter={()=>{setShowAlert(false); navigate('/login')}}
+       onclose={()=>setShowAlert(false)}/>}
+       
       {cartProducts.length>0 ? <h2 className="text-2xl font-bold text-rose-700 mb-6">{`Your Cart (${totalProducts} product)`}</h2> : null}
            {cartProducts.length>0 ? 
            <div className="grid lg:grid-cols-3 gap-6">
