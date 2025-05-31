@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Mail, Home, Lock, MapPin, User, Loader  } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import authService from '../../../tshirt/src/Appwrite/Authentication'
+import authService from '../Appwrite/appwriteAuth'
 import { data, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../Redux Slices/authSlice'
