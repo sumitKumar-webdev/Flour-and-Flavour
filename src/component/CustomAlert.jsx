@@ -3,11 +3,11 @@ import React, { useEffect } from 'react'
 
 export default function CustomAlert({message, onEnter, onclose}) {
   useEffect(()=> {
-  const timer =  setTimeout(()=>{onEnter?.()}, 2000)
+  const timer =  setTimeout(()=>{onEnter?.()}, 5000)
 
   return () => clearTimeout(timer)
   }, [onEnter])
-  
+
   return (
     <div onClick={onclose} className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
       <div onClick={(e)=>e.stopPropagation()} className="bg-white rounded-2xl w-full relative max-w-sm p-6 shadow-2xl border border-gray-100 flex justify-center items-center flex-col">
