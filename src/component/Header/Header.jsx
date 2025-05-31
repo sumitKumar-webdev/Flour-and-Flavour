@@ -33,8 +33,9 @@ export const Header = () => {
         
     ]
 
-    const handleToggle = () =>{
+    const handleToggle = (e) =>{
         setShowSlider(!showSlider)
+        e.stopPropagation()
     }
     
     return(
@@ -46,7 +47,7 @@ export const Header = () => {
            onClick={()=>navigate('/')}
             className='flex items-center cursor-pointer caret-transparent ml-4' 
             >
-               <MenuIcon size={30} className='menu hidden' onClick={handleToggle}/>
+               <MenuIcon size={30} className='menu hidden' onClick={(e)=>handleToggle(e)}/>
                <Logo id='logo' width={100} className='ml-52'/>
             </div>
 
