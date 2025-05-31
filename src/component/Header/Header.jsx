@@ -96,13 +96,20 @@ export const Header = () => {
 
 {/* Slider */}
 
-                <div className={`h-svh fixed z-50 transition-transform  w-[350px]  bg-[#fff7f7] flex flex-col ${showSlider ? 'translate-x-0' : '-translate-x-full'} slider`}>
+              {showSlider &&  
+            //   slider box
+               <div onClick={()=>setShowSlider(false)} className='fixed inset-0 bg-black/30 z-40'>
+                {/* actual Slider */}
+                   <div onClick={(e)=>e.stopPropagation()} className={`h-svh fixed z-50 transition-transform duration-300 ease-in-out
+ top-0  w-[350px]  bg-[#fff7f7] flex flex-col ${showSlider ? 'translate-x-0' : '-translate-x-full'} slider`}>
                     {/* logo */}
                     <div className='flex w-full justify-center items-center border-b-2 caret-transparent'>
                     <Logo 
                     width={150}
-                    onClick={()=>navigate('/')}/>
-                        <X onClick={handleToggle}/>
+                    onClick={()=>{
+                        setShowSlider(false);
+                         navigate('/')}}/>
+                        <X onClick={handleToggle} className='cursor-pointer'/>
                     </div>
                  
        
@@ -143,6 +150,9 @@ export const Header = () => {
                    
 
                 </div>
+              </div>
+              }
+               
         </nav>
   
     </header>
