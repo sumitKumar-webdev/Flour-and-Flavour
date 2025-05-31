@@ -50,16 +50,23 @@ export const Signup = (props) => {
 
 
   return (
-<div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-{!loading ? (<div className="bg-white transition-all duration-300 rounded-2xl w-full max-w-md min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] p-6 shadow-2xl border border-gray-100">
+   <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
+      {!loading ? 
+         (<div className="bg-white transition-all duration-300 rounded-2xl w-full max-w-md min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] p-6 shadow-2xl border relative border-gray-100">
+           
+        <button onClick={()=>navigate('/')} className=' text-center absolute right-5 top-2 text-gray-400 hover:text-gray-700 text-lg font-semibold caret-transparent'>🗙</button>
+                  
         <h2 className="text-2xl font-bold mb-1 tracking-tight text-gray-800">
           Hello! <span className="ml-1">👋</span>
         </h2>
         <p className="text-sm text-gray-500 mb-6">
           Please enter your details to complete your profile
         </p>
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
+        {/* error message */}
+        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        
+        {/* form */}
         <form className="space-y-4" onSubmit={handleSubmit(signin)}>
          
           <div className="flex items-center gap-2 border border-gray-300 rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-blue-500">

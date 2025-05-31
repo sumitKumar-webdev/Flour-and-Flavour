@@ -11,6 +11,8 @@ export const Login = (props) => {
   const { register, handleSubmit} = useForm()
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+    const [loading, setLoading] = useState(false)
     const [showPass, setShowPass] = useState(false)
     const [error, setError] = useState(null)
 
@@ -21,10 +23,12 @@ export const Login = (props) => {
     const login = async (data) => {
       try {
         setError('')
+        setLoading(true)
         const response =  await authService.login(data)
         if (response) {
          const userInfo = await authService.getCurrentUser()
         }
+        setLoading(false)
         if (userInfo) {
          dispatch(login(userInfo))
         }
@@ -36,11 +40,13 @@ export const Login = (props) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-white rounded-2xl w-full  max-w-sm p-6 shadow-2xl border border-gray-100 ">
-
-
+      {!loading ? (
+          <div className="bg-white rounded-2xl w-full relative max-w-sm p-6 shadow-2xl border border-gray-100 ">
+        
+        <button onClick={()=>navigate('/')} className=' text-center absolute right-5 top-2 text-gray-400 hover:text-gray-700 text-lg font-semibold caret-transparent'>🗙</button>
         <h2 className="text-2xl font-bold mb-1 tracking-tight text-gray-800">
-          Login / Sign In <span className="ml-1">👋</span>
+          Login / Sign In 
+          <span className="ml-1">👋</span>
         </h2>
         {error && <p className="text-red-600 mt-8 mb-2 text-center">{error}</p>}
         <p className="text-sm text-gray-500 mb-7">Enter your email and password</p>
@@ -102,7 +108,15 @@ export const Login = (props) => {
           </a>
         </p>
         </form>
-      </div>
+      </div>) : (
+        // Loader
+        <div className="bg-white rounded-2xl transition duration-300 w-full max-w-md p-6 shadow-2xl border min-h-[500px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] border-gray-100 flex justify-center items-center">
+
+        <div className="border-8 h-20 caret-transparent w-20 border-rose-300 border-t-rose-600 rounded-full animate-spin"></div>
+
+        </div>)}
+    
+
     </div>
   )
   }
