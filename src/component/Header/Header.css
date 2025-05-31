@@ -1,0 +1,44 @@
+
+@media screen and (min-width:480px ) and (max-width:768px) {
+    .navbtn{
+        display: none;
+    }
+    #userIcon{
+        display: none;
+    }
+    .menu{
+        display: block;
+    }
+    #logo{
+        display: none;
+    }
+
+}
+@media screen  and  (max-width:400px) {
+    .slider{
+        width:100%
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .navbtn {
+        display: none;
+    }
+    .navIcon {
+        padding-right: 8px;
+    }
+    #userIcon {
+        display: none;
+    }
+    .menu {
+        display: block !important;
+    }
+    #logo {
+        display: none;
+    }
+    #cart div {
+        right: 5px;
+        top: -4px;
+
+    }
+}

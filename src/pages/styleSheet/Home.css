@@ -1,0 +1,17 @@
+@media screen and (max-width: 479px){
+    .banner{
+        height: 25rem;
+    }
+    .banner h1 {
+        font-size: 35px;
+        color: white;
+    }
+    .banner p {
+        font-size: 15px;
+    }
+    .banner button {
+        text-wrap: wrap;
+        font-size: 13px;
+        padding: 15px
+    }
+}

@@ -1,0 +1,14 @@
+@media screen and (max-width: 479px){
+    .banner{
+        height: 20rem;
+        opacity: 85%;
+    }
+    .banner h1 {
+        font-size: 25px;
+        font-style: oblique;
+        color:chocolate
+    }
+    .productCard{
+        width: 25rem;
+    }
+}

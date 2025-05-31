@@ -1,0 +1,13 @@
+@media screen and (max-width: 479px){
+    .productImg{
+        height: 300px;
+    }
+    .category{
+        place-content: center;
+    }
+
+    *{
+        font-size: 12px;
+    }
+
+}

@@ -1,0 +1,13 @@
+@media screen and (max-width: 479px) {
+    .headings h2{
+    font-size: 25px;
+    margin: 0 0 2px 0;
+}
+.headings p{
+    font-size: 15px;
+    margin: 10 0 10px 0;
+}
+.headings h3 {
+    font-size: 18px;
+}
+}
