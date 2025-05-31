@@ -1,5 +1,5 @@
 import React from 'react'
-import Cart from '../component/cart'
+import Cart from '../component/Cart'
 
 /**
 * @author
