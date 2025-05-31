@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Redux Slices/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +13,7 @@ const Profile = () => {
     const userData = useSelector((state)=>state.auth.userData)
     const [userDetails, setUserDetails] = useState()
     const [loading, setLoading] = useState(false)
-    const [orders, setOrders] = useState()
-    console.log(orders);
+    const [orders, setOrders] = useState([])
     
     
     useEffect(()=>{
@@ -65,7 +64,6 @@ const Profile = () => {
   fetchProduct()
 },[orders])
 
-console.log(product);
   const getInitial = (name) => name.charAt(0).toUpperCase();
 
   return (

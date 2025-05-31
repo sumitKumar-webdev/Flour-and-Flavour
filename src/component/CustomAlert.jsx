@@ -2,15 +2,15 @@ import { User2Icon } from 'lucide-react'
 import React, { useEffect } from 'react'
 
 export default function CustomAlert({message, onEnter, onclose}) {
-  // useEffect(()=> {
-  // const timer =  setTimeout(()=>{onEnter?.()}, 5000)
+  useEffect(()=> {
+  const timer =  setTimeout(()=>{onEnter?.()}, 5000)
 
-  // return () => clearTimeout(timer)
-  // }, [onEnter])
+  return () => clearTimeout(timer)
+  }, [onEnter])
 
   return (
-    <div onClick={onclose} className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center">
-      <div onClick={(e)=>e.stopPropagation()} className="bg-white rounded-2xl w-full relative max-w-sm p-6 shadow-2xl border border-gray-100 flex justify-center items-center flex-col">
+    <div onClick={onclose} className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center h-screen w-screen">
+      <div onClick={(e)=>e.stopPropagation()} className="bg-white rounded-2xl w-full relative max-w-sm p-6 shadow-2xl border border-gray-100 flex justify-center lg:mt-0 -mt-56  items-center flex-col">
         {/* Icon */}
         <div className='px-4 py-4 rounded-full bg-rose-200 mb-8'><User2Icon color='#EC407A' size={35}/></div>
         {/* Message */}
