@@ -1,10 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Service from "../Appwrite/Config";
 import { cartDatafromLS } from "./LocalStorage";
-const initialState = cartDatafromLS() || {
+
+const initialState = cartDatafromLS() ?? {
      products : [],
      totalPrice : 0,
-     totalProducts : 0
+     totalProducts : 0,
+     placeOrder: [],
+     message: null
 }
 
 export const fetchCartFromDb = createAsyncThunk(
@@ -26,6 +29,8 @@ export const syncCartToDb = createAsyncThunk(
     'cart/syncCartToDb',
     async (_, {getState}) => {
         const { products } = getState().cart
+        console.log(products);
+        
         const userId = getState().auth.userData.$id;
         if (!userId || products.length === 0) return;
         await Promise.all(
@@ -33,24 +38,21 @@ export const syncCartToDb = createAsyncThunk(
                 if (item.$id) {
                     const updatingItem = {
                         documentId: item.$id,
-                        user_id : userId,
+                        userId : userId,
                         productId: item.productId,
                         price: item.price,
                         quantity: item.quantity,
                         size: item.size,
-                        color: item.color
                     }
                     return Service.updateProduct(updatingItem)
                     
                 }else {
-                    console.log('Adding to cart ');
                     const itemdetails = {
-                        user_id : userId,
-                        productId: item.productId,
-                        price: item.price,
-                        quantity: item.quantity,
-                        size: item.size,
-                        color: item.color
+                        userId : userId,
+                        productId: item?.productId,
+                        price: item?.price,
+                        quantity: item?.quantity,
+                        size: item?.size,
                     }
                     const addedItem = await Service.addToCart(itemdetails);
                     return addedItem
@@ -107,7 +109,7 @@ const cartSlice = createSlice({
             
 
             if(!existingProduct){
-                state.products.push({ ...action.payload, quantity: 1, color: action.payload.color});
+                state.products.push({ ...action.payload, quantity: 1, size: action.payload.size, price: action.payload.price});
             }else{
                 existingProduct.quantity++;
             }
@@ -154,11 +156,11 @@ const cartSlice = createSlice({
     setCheckoutProducts: (state, action) => {
         const { cartProducts, cakeMessage } = action.payload
         const newProducts = cartProducts
-        newProducts?.forEach((newProduct)=>{const existingProduct = state.placeOrder.find(product=>( product.productId === newProduct.productId) && (product.size === newProduct.size));
+        newProducts?.forEach((newProduct)=>{const existingProduct = state.placeOrder?.find(product=>( product.productId === newProduct.productId) && (product.size === newProduct.size));
         if (existingProduct) {
             existingProduct.quantity++;
         } else {
-            state.placeOrder.push({ ...newProduct, size: newProduct.size,});
+            state.placeOrder?.push({ ...newProduct, size: newProduct.size,});
             state.message = {
                 
                     ...state.message,

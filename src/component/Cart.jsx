@@ -5,6 +5,7 @@ import { incQty, decQty, syncCartToDb,removeFromCart, deleteFromDb, setCheckoutP
 import Service from '../Appwrite/Config';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from './CustomAlert';
+import { useDebounce } from '../Hook/useDebounce';
 
  const Cart= () => {
     const dispatch = useDispatch()
@@ -53,25 +54,33 @@ if (cartProducts.length>0) {
 },[cartProducts])
 
 //syncingCarttoDb
+// debounced
+const debounced_Syncing_Db = useDebounce(()=>{
+  if (userId && cartProducts.length > 0) {
+    dispatch(syncCartToDb())
+  }
+}, 5000)
+
+
 useEffect(()=>{
-    if (userId && cartProducts.length > 0) {
-        const interval = setInterval(()=>{
-        dispatch(syncCartToDb())
-    }, 30000)
-    return ()=> clearInterval(interval)
-    }
-},[cartProducts, userId])
+   debounced_Syncing_Db()
+},[cartProducts, debounced_Syncing_Db, userId])
 
 
-const handlePlaceOrder = () =>{
+
+const handlePlaceOrder = async () =>{
   if (!userId) {
        setShowAlert(true)
     return
   }
-dispatch(setCheckoutProducts({cartProducts, cakeMessage})),
-navigate('/payment'),
-  userId ? dispatch(clearCartDb) : dispatch(emptyCart)
-
+  dispatch(setCheckoutProducts({cartProducts, cakeMessage}));
+  navigate('/payment');
+  // userId ? dispatch(clearCartDb) : dispatch(emptyCart)
+if (userId) {
+  dispatch(clearCartDb())
+}else {
+   dispatch(emptyCart())
+}
 }
 
 
@@ -94,6 +103,7 @@ navigate('/payment'),
                  {!loading ? (cartProducts.map((item, index)=>{ 
                   // product details from product obj
                   const productDetail = product[item?.productId];
+                                  
                   // passkey for every products identification
                   const passkey = `${item?.productId}+${item?.size}`
                   
@@ -118,8 +128,8 @@ navigate('/payment'),
                      </div>
                      <button
                      onClick={() => {
-                      userId ?
-                       dispatch(deleteFromDb(product.$id))
+                      userId && productDetail.$id ?
+                       dispatch(deleteFromDb(productDetail.$id))
                        : dispatch(removeFromCart({ productId: item.productId, size: item.size }));
                       }}
                       className="absolute top-2 right-3 flex items-center justify-center h-8 w-8 bg-rose-100 border border-rose-500 text-rose-600 rounded-full hover:bg-rose-500 hover:text-white transition-all duration-200 shadow-sm"

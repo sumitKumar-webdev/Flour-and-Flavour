@@ -89,18 +89,17 @@ export class appwriteServices {
     }
 
     // Database Storage and services
-    async addToCart({user_id, price, product_id, size, color, quantity}){
+    async addToCart({userId, price, productId, size, quantity}){
         try {
             return await this.databases.createDocument(
                 Conf.appwriteDatabaseId,
                 Conf.appwriteCartCollectionId,
                 ID.unique(),
                 {
-                    user_id,
-                    product_id,
+                    userId,
+                    productId,
                     size,
                     price,
-                    color,
                     quantity
                 }
             ) 

@@ -22,16 +22,16 @@ import { ProfilePage } from './pages/ProfilePage.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route  path='' element={<App/>}>
-      <Route exact path='/' element={<HomePage />} />
-      <Route exact path='about' element={<AboutPage />} />
-      <Route exact path='shop' element={<ShopPage />} />
-      <Route exact path='contact' element={<ContactPage />} />
-      <Route exact path='product/:productId' element={<ProductPage />} />
-      <Route exact path='customcake' element={<CustomCakePage />} />
-      <Route exact path='cart' element={<CartPage />} />
-      <Route exact path='login' element={<LoginPage />} />
-      <Route exact path='signUp' element={<SignupPage />} />
-      <Route exact path='payment' element={<PaymentsPage />} />
+      <Route  path='/' element={<HomePage />} />
+      <Route  path='about' element={<AboutPage />} />
+      <Route  path='shop' element={<ShopPage />} />
+      <Route  path='contact' element={<ContactPage />} />
+      <Route  path='product/:productId' element={<ProductPage />} />
+      <Route  path='customcake' element={<CustomCakePage />} />
+      <Route  path='cart' element={<CartPage />} />
+      <Route  path='login' element={<LoginPage />} />
+      <Route  path='signUp' element={<SignupPage />} />
+      <Route  path='payment' element={<PaymentsPage />} />
       <Route exact path='profile' element={<ProfilePage />} />
     </Route>
   )

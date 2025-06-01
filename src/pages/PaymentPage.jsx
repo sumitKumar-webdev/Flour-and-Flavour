@@ -23,14 +23,14 @@ const PaymentsPage = () => {
   }, [checkoutProducts, navigate]);
 
 useEffect(()=>{
-  const Total = checkoutProducts.reduce((acc, item) => {
+  const Total = checkoutProducts?.reduce((acc, item) => {
     const quantity = item?.quantity || 0;
     const price = item?.price || 0;
     return acc + (quantity * price);
   }, 0);
   
   setTotalAmount(Total)
-},[])
+},[checkoutProducts])
 
 
   useEffect(()=>{
@@ -38,7 +38,7 @@ useEffect(()=>{
     let productData = {...product};
     const fetchProduct = async () => {
     for(const product of checkoutProducts){
-        if (!productData[product.productId]) {
+        if (!productData[product?.productId]) {
             
             try {
                 const productId = product?.productId;                                       
@@ -53,7 +53,7 @@ useEffect(()=>{
     setProduct(prev => ({ ...prev, ...productData }));
     setLoading(false)
 };
-if (checkoutProducts.length>0) {
+if (checkoutProducts?.length>0) {
     fetchProduct()
 }else{
     setLoading(false)
@@ -61,7 +61,7 @@ if (checkoutProducts.length>0) {
 },[checkoutProducts])
 
 const handlePlaceOrder = async () =>{
- const data = await Promise.all(checkoutProducts.map((item)=> Service.storeOrder({
+ const data = await Promise.all(checkoutProducts?.map((item)=> Service.storeOrder({
          userId: userData?.$id,
         productId: item?.productId,
         price: item?.price,
@@ -90,7 +90,7 @@ if (data) {
           Confirm Your Order
         </h1>
 
-       {checkoutProducts.map((item)=>{
+       {checkoutProducts?.map((item)=>{
        console.log(item);
        
         const productData = product[item?.productId]
@@ -130,7 +130,7 @@ if (data) {
 
 
            <div className='w-full bg-white relative py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 items-center font-semibold px-4 rounded-2xl shadow-lg border border-rose-100 mb-2'>
-            <span className=''>Total Products: {checkoutProducts.length}</span>
+            <span className=''>Total Products: {checkoutProducts?.length}</span>
             <span className='lg:right-5 lg:absolute md:right-5 md:absolute'>Total Amount: {totalAmount?.toFixed(2)}</span>
            </div>
         <div className="bg-white p-6 rounded-2xl shadow-lg border border-rose-100 space-y-6">
