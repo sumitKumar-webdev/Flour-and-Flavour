@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { Mail, Lock, Eye, EyeClosed } from 'lucide-react'
  import { useForm } from 'react-hook-form'
-import Service from '../Appwrite/Config'
 import authService from '../Appwrite/appwriteAuth'
 import { useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom'
-import { login } from '../Redux Slices/authSlice'
+import { login as storeLogin } from '../Redux Slices/authSlice'
 
 export const Login = (props) => {
   const { register, handleSubmit} = useForm()
@@ -24,12 +23,17 @@ export const Login = (props) => {
       try {
         setError('')
         setLoading(true)
+        let userInfo;
         const response =  await authService.login(data)
+        console.log(data);
+        
         if (response) {
-         const userInfo = await authService.getCurrentUser()
+          userInfo = await authService.getCurrentUser()
+
+          
         }
         if (userInfo) {
-          dispatch(login(userInfo))
+          dispatch(storeLogin(userInfo))
           navigate('/');
         }
         
