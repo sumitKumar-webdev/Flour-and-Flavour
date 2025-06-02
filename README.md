@@ -77,26 +77,3 @@ npm install
 # Start the development server
 npm run dev
 ```
-## 📂 Folder Structure
-
-Flour-and-Flavour/
-|-- public/                 # Static assets and favicon
-|-- src/
-|   |-- assets/             # Images, icons, and static resources
-|   |-- components/         # Reusable UI components (Navbar, CakeCard, etc.)
-|   |-- pages/              # Route-based pages (Home, Cart, CustomCake, etc.)
-|   |-- redux/              # Redux setup and slices
-|   |   |-- cartSlice.js
-|   |   |-- userSlice.js
-|   |   `-- store.js
-|   |-- hooks/              # Custom React hooks
-|   |-- appwrite/           # Appwrite SDK & service layer
-|   |   |-- appwriteConfig.js
-|   |   `-- services.js
-|   |-- App.jsx             # Root React component
-|   |-- main.jsx            # Vite entry point
-|   `-- index.css           # Global CSS / Tailwind base
-|-- tailwind.config.js      # Tailwind configuration
-|-- postcss.config.js       # PostCSS setup
-|-- index.html              # HTML template
-`-- package.json            # Project metadata and dependencies
