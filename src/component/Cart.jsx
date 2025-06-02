@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Cross, ShieldCheck, ShoppingCart, Smile, Wallet, } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import {ShieldCheck, ShoppingCart, Smile, Wallet, } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { incQty, decQty, syncCartToDb,removeFromCart, deleteFromDb, setCheckoutProducts, clearCartDb, emptyCart } from '../Redux Slices/cartSlice';
 import Service from '../Appwrite/Config';
@@ -63,7 +63,9 @@ const debounced_Syncing_Db = useDebounce(()=>{
 
 
 useEffect(()=>{
-   debounced_Syncing_Db()
+   if (userId && cartProducts.length > 0) {
+    debounced_Syncing_Db();
+  }
 },[cartProducts, debounced_Syncing_Db, userId])
 
 
@@ -75,7 +77,7 @@ const handlePlaceOrder = async () =>{
   }
   dispatch(setCheckoutProducts({cartProducts, cakeMessage}));
   navigate('/payment');
-  // userId ? dispatch(clearCartDb) : dispatch(emptyCart)
+  userId ? dispatch(clearCartDb) : dispatch(emptyCart)
 if (userId) {
   dispatch(clearCartDb())
 }else {

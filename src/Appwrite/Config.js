@@ -123,7 +123,7 @@ export class appwriteServices {
         }
     }
 
-    async updateProduct({documentId,item}){
+    async updateProduct(documentId,item){
         try {
             return await this.databases.updateDocument(
                 Conf.appwriteDatabaseId,
@@ -143,7 +143,24 @@ export class appwriteServices {
                 Conf.appwriteDatabaseId,
                 Conf.appwriteCartCollectionId,
                 [
-                    Query.equal('user_id', userId)
+                    Query.equal('userId', userId)
+                ]
+
+            )
+        } catch (error) {
+            console.log("Appwrite Service :: getAllCartProduct :: error", error);
+            throw error
+        }
+    }
+    async getExistingCartProduct({userId, productId, size}){
+        try {
+            return await this.databases.listDocuments(
+                Conf.appwriteDatabaseId,
+                Conf.appwriteCartCollectionId,
+                [
+                    Query.equal('userId', userId),
+                    Query.equal('productId', productId),
+                    Query.equal('size', size),
                 ]
 
             )
