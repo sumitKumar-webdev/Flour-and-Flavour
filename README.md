@@ -1,32 +1,93 @@
-Flour & Flavour is a modern web application designed for a custom cake shop, enabling users to explore, personalize, and order cakes for various occasions. Built with React and Vite, this project showcases a responsive and user-friendly interface that caters to all your sweet cravings.
+# 🎂 Flour & Flavour
 
-✨ Features
-Custom Cake Orders: Design your dream cake by selecting flavors, sizes, and decorations to suit any celebration.
+**Flour & Flavour** is a modern, responsive cake ordering web app where users can customize cakes, add personalized messages, and manage their orders with a clean and intuitive interface. Built with React and powered by Appwrite, the platform is designed for performance, personalization, and ease of use.
 
-Personalized Messages: Add heartfelt messages to your cakes, making every occasion memorable.
+---
 
-Occasion-Based Categories: Browse cakes tailored for birthdays, anniversaries, weddings, and more.
+## ✨ Features
 
-Responsive Design: Enjoy a seamless experience across devices, from desktops to mobile phones.
+- **🧁 Custom Cake Orders**  
+  Customize your cakes with flavors, sizes, themes, and toppings.
 
-Interactive UI: Engage with an intuitive interface that simplifies the cake ordering process.
+- **💌 Personalized Messages**  
+  Add custom text on cakes to make every celebration special.
 
-🛠️ Tech Stack
-Frontend: React with Vite for efficient development and fast performance.
+- **🛒 Cart Functionality**  
+  Add multiple cakes to your cart, update or remove them before checkout.
 
-Styling: Tailwind CSS for sleek and customizable designs.
+- **📱 Responsive Design**  
+  Optimized for mobile, tablet, and desktop for a smooth user experience.
 
-Deployment: Configured for deployment on platforms like Vercel.
+- **🎨 Clean & Interactive UI**  
+  Designed using Tailwind CSS for a polished, modern look.
 
-📁 Project Structure
-src/: Contains all source code, including components, pages, and assets.
+- **💾 Redux + Local Storage**  
+  Cart and user selections are stored in Redux and persist across sessions using local storage.
 
-public/: Static files and images.
+---
 
+## 🚧 Currently Working On
 
-index.html: Main HTML file.
-Specialty Food Association
+- **🔍 Search & Filter Functionality**  
+  Quickly find the cake you're looking for using keywords.
 
-package.json: Project metadata and dependencies.
+- **🌈 Enhanced Visual Design**  
+  Refining layout and UI animations for a more premium look and feel.
 
-tailwind.config.js: Tailwind CSS configuration.
+- **📝 Custom Notes Per Cake**  
+  Allow users to add messages or special instructions for each cart item.
+
+- **🔐 Authentication & User-Specific Carts**  
+  Using Appwrite to manage secure user login and personalized data storage.
+
+---
+
+## 🛠️ Tech Stack
+
+### 🔧 Frontend
+
+- **React** – Component-based UI development  
+- **Vite** – Fast dev server and optimized builds  
+- **Tailwind CSS** – Utility-first modern styling  
+- **Redux Toolkit** – Global state management  
+- **Redux Persist** – Store cart and UI state in localStorage  
+- **React Router** – Routing and navigation
+
+### 🖥️ Backend
+
+- **Appwrite** – Backend-as-a-Service  
+  - **Authentication** – Secure login & registration  
+  - **Database** – Stores products, user carts, and orders  
+  - **Functions** – Custom server logic for advanced features
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# Clone the repo
+git clone https://github.com/sumitKumar-webdev/Flour-and-Flavour.git
+
+# Navigate to project folder
+cd Flour-and-Flavour
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+## 📂 Folder Structure
+Flour-and-Flavour/
+├── public/             # Static assets
+├── src/
+│   ├── components/     # UI components
+│   ├── Hooks/          # Custom Hook
+│   ├── pages/          # Page components
+│   ├── redux/          # Redux store & slices
+│   ├── appwrite/       # Appwrite SDK and service setup
+│   └── App.jsx         # Root component
+├── tailwind.config.js  # Tailwind configuration
+├── index.html          # Entry HTML
+└── package.json        # Project info & dependencies
