@@ -78,16 +78,25 @@ npm install
 npm run dev
 ```
 
-## 📂 Folder Structure
+📂 Folder Structure
 Flour-and-Flavour/
-├── public/             # Static assets
+├── public/                      # Static assets and favicon
 ├── src/
-│   ├── components/     # UI components
-│   ├── Hooks/          # Custom Hook
-│   ├── pages/          # Page components
-│   ├── redux/          # Redux store & slices
-│   ├── appwrite/       # Appwrite SDK and service setup
-│   └── App.jsx         # Root component
-├── tailwind.config.js  # Tailwind configuration
-├── index.html          # Entry HTML
-└── package.json        # Project info & dependencies
+│   ├── assets/                  # Images, icons, and static resources
+│   ├── components/              # Reusable UI components (Navbar, CakeCard, etc.)
+│   ├── pages/                   # Route-based pages (Home, Cart, CustomCake, etc.)
+│   ├── redux/                   # Redux setup and slices
+│   │   ├── cartSlice.js
+│   │   ├── userSlice.js
+│   │   └── store.js
+│   ├── hooks/                   # Custom React hooks
+│   ├── appwrite/                # Appwrite SDK & service layer
+│   │   ├── appwriteConfig.js
+│   │   └── services.js
+│   ├── App.jsx                  # Root React component
+│   ├── main.jsx                 # Vite entry point
+│   └── index.css                # Global CSS / Tailwind base
+├── tailwind.config.js           # Tailwind configuration
+├── postcss.config.js            # PostCSS setup
+├── index.html                   # HTML template
+└── package.json                 # Project metadata and dependencies
