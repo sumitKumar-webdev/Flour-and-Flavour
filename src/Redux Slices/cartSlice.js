@@ -26,60 +26,98 @@ export const fetchCartFromDb = createAsyncThunk(
 )
 
 export const syncCartToDb = createAsyncThunk(
-    'cart/syncCartToDb',
-    async (_, { getState }) => {
-        try {
-            const { products } = getState().cart
-            const userId = getState().auth.userData?.$id;
+  'cart/syncCartToDb',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const state = getState();
+      const userId = state.auth.userData?.$id;
+      const localProducts = state.cart.products;
 
-            if (!userId || products.length === 0) return;
+      if (!userId) return;
 
-            const syncTasks = products.map(async (product) => {
-                try {
-                    const productId = product.productId;
-                    const size = product.size;
-                    const response = await Service.getExistingCartProduct({ userId, productId, size })
-                    const existingProduct = response?.documents?.[0]
+      // 1. Fetch all existing products from DB
+      const dbResponse = await Service.getAllCartProduct(userId);
+      const dbProducts = dbResponse?.documents || [];
 
-                    // Add new product if existing product is not available
+      // 2. Create a lookup map for faster comparisons
+      const dbMap = new Map(
+        dbProducts.map((item) => [`${item.productId}-${item.size}`, item])
+      );
 
-                    if (!existingProduct) {
-                        const addPayload = {
-                            userId: userId,
-                            ...product
-                        }
-                        const addedItem = await Service.addToCart(addPayload);
-                        return addedItem
-                    }
+      // 3. Create lookup map for local Redux products too
+      const localMap = new Map(
+        localProducts.map((item) => [`${item.productId}-${item.size}`, item])
+      );
 
-                    // Updating product 
-                    const isSame = (product.quantity === existingProduct.quantity) && (product.size === existingProduct.size) && (userId === existingProduct.userId)
-                    //if everything is same ignor
-                    if (isSame) return null;
+      // 4. Sync tasks
+      const tasks = [];
 
-                    return await Service.updateProduct(existingProduct.$id, product)
-                } catch (innerError) {
-                    console.error('Error syncing individual product:', product, innerError);
-                    return null;
-                }
-            })
-            await Promise.all(syncTasks);
-            console.info('Cart successfully synced with database.');
-        } catch (error) {
-            console.error('Failed to sync cart:', error);
-            toast.error('Failed to sync cart with server.');
-            return rejectWithValue('Cart sync failed');
+      // --- Handle Add / Update ---
+      for (const localProduct of localProducts) {
+        const key = `${localProduct.productId}-${localProduct.size}`;
+        const dbProduct = dbMap.get(key);
+
+        if (!dbProduct) {
+          // Product doesn't exist in DB → Add
+          const payload = { ...localProduct, userId };
+          tasks.push(Service.addToCart(payload));
+        } else {
+          // Exists → Check for update
+          const isSame =
+            dbProduct.quantity === localProduct.quantity &&
+            dbProduct.size === localProduct.size;
+
+          if (!isSame) {
+            console.log(dbProduct);
+            
+            tasks.push(
+              Service.updateProduct({
+                documentId: dbProduct.$id,
+                item: {
+                  userId,
+                  productId: localProduct.productId,
+                  quantity: localProduct.quantity,
+                  size: localProduct.size,
+                  price: localProduct.price,
+                },
+              })
+            );
+          }
         }
+      }
 
+      // --- Handle Delete ---
+      for (const dbProduct of dbProducts) {
+        const key = `${dbProduct.productId}-${dbProduct.size}`;
+        if (!localMap.has(key)) {
+          tasks.push(Service.removeFromCart(dbProduct.$id));
+          console.log('deleted product', localMap.get(key));
+          
+        }
+      }
+
+      await Promise.all(tasks);
+      console.info('✅ Cart successfully synced with database.');
+    } catch (error) {
+      console.error('❌ Failed to sync cart:', error);
+      toast.error('Failed to sync cart with server.');
+      return rejectWithValue('Cart sync failed');
     }
-)
+  }
+);
+
 
 export const deleteFromDb = createAsyncThunk(
     'cart/deleteFromDb',
-    async (documentId, { rejectWithValue }) => {
+    async (item, { rejectWithValue, getState }) => {
         try {
-            await Service.removeFromCart(documentId);
-            return documentId;
+            const { productId, size } = item        
+            const userId = getState().auth.userData?.$id;      
+           const response = await Service.getExistingCartProduct({userId, productId, size})      
+           const documentId = response?.documents?.[0]?.$id
+         await Service.removeFromCart(documentId)
+         return item
+           
         } catch (error) {
             console.log("deleteFromAppwrite :: cartSlice :: error", error);
 

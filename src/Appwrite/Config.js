@@ -123,7 +123,7 @@ export class appwriteServices {
         }
     }
 
-    async updateProduct(documentId,item){
+    async updateProduct({documentId,item}){
         try {
             return await this.databases.updateDocument(
                 Conf.appwriteDatabaseId,
@@ -165,7 +165,7 @@ export class appwriteServices {
 
             )
         } catch (error) {
-            console.log("Appwrite Service :: getAllCartProduct :: error", error);
+            console.log("Appwrite Service :: getExistingCartProduct :: error", error);
             throw error
         }
     }

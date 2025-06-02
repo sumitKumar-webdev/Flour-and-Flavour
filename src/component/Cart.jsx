@@ -84,7 +84,15 @@ if (userId) {
    dispatch(emptyCart())
 }
 }
-
+//  const handleRemove = (item) => {
+//   if (userId) {
+//     dispatch(deleteFromDb(item))
+//   }
+//   // userId && productDetail.$id ?
+//   // dispatch(deleteFromDb(productDetail.$id))
+//   // : dispatch(removeFromCart({ productId: item.productId, size: item.size }));
+                     
+//  }
 
   return (
     <div className="bg-rose-50 min-h-screen py-8 px-4">
@@ -129,11 +137,7 @@ if (userId) {
                        <span className="cursor-pointer font-bold hover:scale-105" onClick={()=>dispatch(incQty(item))}>+</span>
                      </div>
                      <button
-                     onClick={() => {
-                      userId && productDetail.$id ?
-                       dispatch(deleteFromDb(productDetail.$id))
-                       : dispatch(removeFromCart({ productId: item.productId, size: item.size }));
-                      }}
+                     onClick={()=>dispatch(removeFromCart({ productId: item.productId, size: item.size }))}
                       className="absolute top-2 right-3 flex items-center justify-center h-8 w-8 bg-rose-100 border border-rose-500 text-rose-600 rounded-full hover:bg-rose-500 hover:text-white transition-all duration-200 shadow-sm"
                       title="Remove from Cart">
                         <span className="text-lg font-bold">Χ</span>
