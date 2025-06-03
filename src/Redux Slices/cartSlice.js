@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Service from "../Appwrite/Config";
 import { cartDatafromLS } from "./LocalStorage";
 
-const initialState = cartDatafromLS() ?? {
-    products: [],
-    totalPrice: 0,
-    totalProducts: 0,
-    placeOrder: [],
-    message: null
+const initialState =  cartDatafromLS() ?? {
+     products: [],
+        placeOrder: [],
+        message: null,
+        totalAmount: 0,
+        totalProducts: 0
 }
 
 export const fetchCartFromDb = createAsyncThunk(
@@ -35,21 +35,21 @@ export const syncCartToDb = createAsyncThunk(
 
       if (!userId) return;
 
-      // 1. Fetch all existing products from DB
+      //all existing products from DB
       const dbResponse = await Service.getAllCartProduct(userId);
       const dbProducts = dbResponse?.documents || [];
 
-      // 2. Create a lookup map for faster comparisons
+      
       const dbMap = new Map(
         dbProducts.map((item) => [`${item.productId}-${item.size}`, item])
       );
 
-      // 3. Create lookup map for local Redux products too
+    
       const localMap = new Map(
         localProducts.map((item) => [`${item.productId}-${item.size}`, item])
       );
 
-      // 4. Sync tasks
+   
       const tasks = [];
 
       // --- Handle Add / Update ---
@@ -97,35 +97,33 @@ export const syncCartToDb = createAsyncThunk(
       }
 
       await Promise.all(tasks);
-      console.info('✅ Cart successfully synced with database.');
     } catch (error) {
       console.error('❌ Failed to sync cart:', error);
-      toast.error('Failed to sync cart with server.');
       return rejectWithValue('Cart sync failed');
     }
   }
 );
 
 
-export const deleteFromDb = createAsyncThunk(
-    'cart/deleteFromDb',
-    async (item, { rejectWithValue, getState }) => {
-        try {
-            const { productId, size } = item        
-            const userId = getState().auth.userData?.$id;      
-           const response = await Service.getExistingCartProduct({userId, productId, size})      
-           const documentId = response?.documents?.[0]?.$id
-         await Service.removeFromCart(documentId)
-         return item
+// export const deleteFromDb = createAsyncThunk(
+//     'cart/deleteFromDb',
+//     async (item, { rejectWithValue, getState }) => {
+//         try {
+//             const { productId, size } = item        
+//             const userId = getState().auth.userData?.$id;      
+//            const response = await Service.getExistingCartProduct({userId, productId, size})      
+//            const documentId = response?.documents?.[0]?.$id
+//          await Service.removeFromCart(documentId)
+//          return item
            
-        } catch (error) {
-            console.log("deleteFromAppwrite :: cartSlice :: error", error);
+//         } catch (error) {
+//             console.log("deleteFromAppwrite :: cartSlice :: error", error);
 
-            return rejectWithValue(error);
-        }
+//             return rejectWithValue(error);
+//         }
 
-    }
-)
+//     }
+// )
 
 export const clearCartDb = createAsyncThunk(
     'cart/clearCartDb',
@@ -166,7 +164,7 @@ const cartSlice = createSlice({
 
         removeFromCart: (state, action) => {
             const productId = action.payload.productId
-            const product = state.products.find(product => product.productId === productId);
+            const product = state.products.find(product => product.productId === productId && product.size === action.payload.size);
             if (product) {
 
                 state.products = state.products.filter(product => !(product.productId === productId && product.size === action.payload.size));
@@ -231,16 +229,11 @@ const cartSlice = createSlice({
                     if (existingProduct) {
                         existingProduct.quantity += newProduct.quantity
                     } else {
-                        state.products.push(existingProduct)
+                        state.products.push(...newProduct)
                     }
                     state.totalProducts += newProduct.quantity;
                     state.totalAmount += newProduct.price * newProduct.quantity;
                 })
-            })
-            .addCase(deleteFromDb.fulfilled, (state, action) => {
-                state.products = state.products.filter(product => product.$id != action.payload);
-                state.totalProducts -= action.payload.quantity
-                state.totalAmount - + action.payload.price * action.payload.quantity
             })
             .addCase(clearCartDb.fulfilled, (state) => {
                 state.products = [];

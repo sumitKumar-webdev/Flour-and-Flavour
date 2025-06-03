@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {ShieldCheck, ShoppingCart, Smile, Wallet, } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { incQty, decQty, syncCartToDb,removeFromCart, deleteFromDb, setCheckoutProducts, clearCartDb, emptyCart } from '../Redux Slices/cartSlice';
+import { incQty, decQty, syncCartToDb,removeFromCart, setCheckoutProducts, clearCartDb, emptyCart } from '../Redux Slices/cartSlice';
 import Service from '../Appwrite/Config';
 import { useNavigate } from 'react-router-dom';
 import CustomAlert from './CustomAlert';
@@ -96,12 +96,15 @@ if (userId) {
 
   return (
     <div className="bg-rose-50 min-h-screen py-8 px-4">
+    
       {/* Alert */}
+
       {showAlert &&
        <CustomAlert 
        message={'Login to Place Order'} 
        onEnter={()=>{setShowAlert(false); navigate('/login')}}
-       onclose={()=>setShowAlert(false)}/>}
+       onclose={()=>setShowAlert(false)}/>
+       }
        
       {cartProducts.length>0 ? <h2 className="text-2xl font-bold text-rose-700 mb-6">{`Your Cart (${totalProducts} product)`}</h2> : null}
            {cartProducts.length>0 ? 
