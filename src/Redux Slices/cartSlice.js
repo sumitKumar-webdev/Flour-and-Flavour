@@ -219,6 +219,9 @@ const cartSlice = createSlice({
                 }
             })
 
+        },
+        clearPlaceOrder : (state) => {
+          state.placeOrder = []
         }
     },
     extraReducers: (builder) => {
@@ -243,5 +246,5 @@ const cartSlice = createSlice({
     }
 });
 
-export const { addToCart, removeFromCart, incQty, decQty, emptyCart, setCheckoutProducts } = cartSlice.actions;
+export const { addToCart, removeFromCart, incQty, decQty, emptyCart, setCheckoutProducts, clearPlaceOrder } = cartSlice.actions;
 export default cartSlice.reducer;

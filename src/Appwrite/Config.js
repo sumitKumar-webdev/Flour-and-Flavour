@@ -171,7 +171,7 @@ export class appwriteServices {
     }
 
     //Order cart 
-    async storeOrder({userId, productId, quantity, paymentMethod, status}){
+    async storeOrder({userId, productId, quantity, paymentMethod, status, price}){
 
         try {
             return await this.databases.createDocument(
@@ -183,7 +183,8 @@ export class appwriteServices {
                     productId,
                     quantity,
                     paymentMethod,
-                    status
+                    status,
+                    price
                 }
             );
         } catch (error) {

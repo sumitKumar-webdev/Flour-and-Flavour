@@ -77,9 +77,8 @@ const handlePlaceOrder = async () =>{
   }
   dispatch(setCheckoutProducts({cartProducts, cakeMessage}));
   navigate('/payment');
-  userId ? dispatch(clearCartDb) : dispatch(emptyCart)
 if (userId) {
-  dispatch(clearCartDb())
+  dispatch(clearCartDb(userId))
 }else {
    dispatch(emptyCart())
 }
