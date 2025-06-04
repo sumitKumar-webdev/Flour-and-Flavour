@@ -143,7 +143,10 @@ export const Header = () => {
                     </div>
              </div>
                     <div 
-                     onClick={()=>user? navigate('/profile') : navigate('/login')}
+                     onClick={()=>{
+                        user? navigate('/profile') : navigate('/login');
+                        setShowSlider(false)
+                    }}
                     className='p-5 cursor-pointer  w-full border justify-center gap-2 flex text-xl hover:border hover:border-rose-500 hover:text-rose-500 transition-all duration-300 ease-in-out '>
                         <User2Icon  size={30} color='black'/> Profile
                     </div>
