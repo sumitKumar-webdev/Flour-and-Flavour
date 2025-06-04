@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Service from "../Appwrite/Config";
 import { useNavigate } from "react-router-dom";
 import { clearPlaceOrder } from "../Redux Slices/cartSlice";
+import CustomBtn from "../component/CustomBtn";
 
 const PaymentsPage = () => {
   const checkoutProducts = useSelector((state) => state.cart.placeOrder);
@@ -62,6 +63,7 @@ const PaymentsPage = () => {
   }, [checkoutProducts]);
 
   const handlePlaceOrder = async () => {
+    setLoading(true)
     const data = await Promise.all(
       checkoutProducts?.map((item) =>
         Service.storeOrder({
@@ -74,6 +76,7 @@ const PaymentsPage = () => {
         })
       )
     );
+    setLoading(false)
     if (data) {
       setShowMsg(true);
       if (paymentMethod === "COD") {
@@ -93,14 +96,21 @@ const PaymentsPage = () => {
           Confirm Your Order
         </h1>
 
-        {checkoutProducts?.map((item) => {
-          //  console.log(item);
-
+        {loading
+  ? Array(checkoutProducts.length).fill(0).map((_, i) => (
+      <div key={i} className="animate-pulse flex space-x-4 bg-white p-4 rounded-xl shadow mb-4">
+        <div className="rounded bg-gray-200 h-36 w-32"></div>
+        <div className="flex-1 space-y-4 py-1">
+          <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+        </div>
+      </div>
+    ))  : checkoutProducts?.map((item) => {
           const productData = product[item?.productId];
           const passkey = `${item?.productId}+${item?.size}`;
-
-          return (
-            <div
+           return (
+               <div 
               key={passkey}
               className="grid grid-cols-1 lg:flex bg-white p-2  rounded-xl shadow-md border border-rose-100 mb-4"
             >
@@ -115,7 +125,7 @@ const PaymentsPage = () => {
                   className="w-32 h-36 object-cover rounded-lg shadow-sm"
                 />
               </div>
-              <div className="flex flex-col justify-center pl-4 pr-2 space-y-2">
+              <div className="flex flex-col justify-center pl-4 pr-2 lg:space-y-2">
                 <h2 className="text-lg font-semibold text-gray-800">
                   {productData?.productName || item?.title}
                 </h2>
@@ -128,7 +138,7 @@ const PaymentsPage = () => {
                 </p>
                 <p className="text-gray-600 text-sm flex items-center gap-1">
                   Price:
-                  <span className="text-base font-semibold text-gray-800">
+                  <span className="text-base font-semibold text-gray-600">
                     ₹ {item?.price}
                   </span>
                 </p>
@@ -139,7 +149,7 @@ const PaymentsPage = () => {
                   </span>
                 </p>
               </div>
-            </div>
+                </div>
           );
         })}
 
@@ -190,12 +200,11 @@ const PaymentsPage = () => {
             </div>
           </label>
 
-          <button
-            onClick={handlePlaceOrder}
-            className="w-full bg-gradient-to-r from-rose-400 to-rose-300 text-white py-3 rounded-xl font-semibold text-lg hover:opacity-90 transition-all"
-          >
-            🎂 Place Your Order
-          </button>
+          <CustomBtn 
+          text="🎂 Place Your Order"
+          onClick={handlePlaceOrder}
+          className="w-full text-lg rounded-xl transition-colors"/>
+
         </div>
         {showMsg && (
           <div

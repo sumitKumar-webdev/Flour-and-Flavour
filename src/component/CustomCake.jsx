@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { setCheckoutProducts } from "../Redux Slices/cartSlice";
 import './styleSheet/CustomCake.css'
 import CustomAlert from "./CustomAlert";
+import CustomBtn from "./CustomBtn";
 
 const CustomCake = () => {
   const navigate = useNavigate()
@@ -65,7 +66,7 @@ const CustomCake = () => {
     <button
       className={`px-8 py-2 border flex flex-col rounded-full text-sm font-medium transition-all duration-200 ${
         selected
-          ? "bg-rose-500 text-white border-rose-500"
+          ? "bg-gradient-to-r from-rose-500 to-rose-700 text-white"
         : "bg-white text-rose-500 border border-rose-300 hover:border-rose-500"
       }`}
       onClick={onClick}
@@ -242,11 +243,8 @@ const CustomCake = () => {
         </div>
       </div>
 
-      <button 
-      onClick={handleBuyNow}
-      className="w-full bg-rose-500 hover:bg-rose-600 text-white py-2 px-4 rounded-md font-semibold">
-        Buy Now
-      </button>
+      <CustomBtn onClick={handleBuyNow} text="Buy Now" className="w-full rounded-md"/>
+
     </div>) : (
       <div className="w-full h-screen flex justify-center items-center">
         <Loader />

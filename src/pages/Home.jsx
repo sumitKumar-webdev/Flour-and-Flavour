@@ -3,6 +3,7 @@ import { ProductCategory } from '../component/ProductCategory'
 import { useNavigate } from 'react-router-dom'
 import './styleSheet/Home.css'
 import { AnimatePresence, motion} from 'framer-motion'
+import CustomBtn from '../component/CustomBtn'
 
 
 export const HomePage = () => {
@@ -18,9 +19,13 @@ export const HomePage = () => {
         Custom Cakes & More
        </h1>
        <p className='text-lg caret-transparent md:text-lg sm:text-base font-bold font-syne text-center text-white mb-10'>Create something sweet just for you</p>
-       <button
+
+       <CustomBtn 
        onClick={()=>navigate('/customcake')} 
-       className='bg-rose-600 hover:bg-rose-700 px-4 py-5 sm:px-3 sm:py-4 rounded-3xl text-white sm:text-sm font-semibold'>Start Custom Order</button>
+       text='🎂 Start Custom Order'
+       className='px-4 py-5 sm:px-3 sm:py-4 rounded-3xl sm:text-sm font-semibold'
+       />
+
     </div>
     
     </div>

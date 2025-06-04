@@ -7,6 +7,7 @@ import { addToCart, setCheckoutProducts } from '../Redux Slices/cartSlice'
 import { Loader } from './Loader'
 import './styleSheet/Product.css'
 import CustomAlert from './CustomAlert'
+import CustomBtn from './CustomBtn'
 
 export const Product = ({discount = 9}) => {
     const [product, setProduct] = useState([])
@@ -138,17 +139,17 @@ export const Product = ({discount = 9}) => {
                         <p className="text-gray-700 border p-2">{product?.Description}</p>
                     </div>
                     <div className='flex flex-col'>
+
                     <button
                     onClick={handleBuyNow}
                     className="mt-6 px-6 py-2 h-12 border border-rose-500 text-rose-400 rounded-full transition-all duration-300 ease-in-out hover:bg-rose-500 hover:text-white hover:shadow-lg hover:scale-105">
                         Buy Now
                     </button>
-                    
-                    <button 
-                    onClick={handleAddtoCart}  
-                    className="mt-6 h-12 px-6 py-2 transition-all duration-300 ease-in-out  hover:shadow-lg hover:scale-105  bg-rose-500 text-white rounded-full hover:bg-rose-600">
-                        Add to Cart
-                    </button>
+                    <CustomBtn 
+                    text='Add to Cart' 
+                    className='mt-6 h-12 px-6 py-2 rounded-full hover:scale-105'
+                    onClick={handleAddtoCart}
+                    />
                     </div>
                 </div>
             </div>
